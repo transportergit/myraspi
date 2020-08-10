@@ -1,0 +1,99 @@
+###vcgencmd bootloader_config
+
+###.elf und .dat ersetzen
+sudo nano /etc/default/rpi-eeprom-update ####>> auf "stable" umstellen
+sudo rpi-eeprom-update -a
+reboot
+
+sudo apt-get update
+sudo apt-get full-upgrade
+sudo apt-get dist-upgrade
+sudo apt-get autoremove
+sudo apt-get clean
+
+sudo raspi-config ####>> CLautologin und LOCALE und WLAN Country3
+
+sudo service dphys-swapfile stop
+sudo apt-get purge dphys-swapfile
+sudo apt-get autoremove
+sudo apt-get clean
+free
+
+sudo nano /etc/modprobe.d/raspi-blacklist.conf
+blacklist brcmfmac
+blacklist brcmutil
+blacklist btbcm
+blacklist hci_uart
+
+sudo systemctl disable wpa_supplicant
+sudo systemctl disable bluetooth
+sudo systemctl disable hciuart
+sudo systemctl disable hciuart.service
+sudo systemctl disable bluetooth.service
+reboot
+iwconfig
+hciconfig
+htop
+
+sudo apt-get install --no-install-recommends xserver-xorg 
+sudo apt-get install --no-install-recommends xinit
+###sudo apt-get install libgles2-mesa libgles2-mesa-dev xorg-dev
+
+###sudo apt-get install raspberrypi-ui-mods
+sudo apt-get install --no-install-recommends raspberrypi-ui-mods lxsession
+sudo apt-get install lightdm
+startx
+
+####https://github.com/raspberrypi-ui
+
+sudo apt-get install lxterminal lxinput pishutdown pipanel chromium
+
+###lxplug-network lxplug-volume lxplug-cputemp
+
+
+#####https://blog.vpetkov.net/2019/07/12/netflix-and-spotify-on-a-raspberry-pi-4-with-latest-default-chromium/
+rm /etc/xdg/autostart/xcompmgr.desktop
+reboot
+
+###################################################################
+
+https://elinux.org/RPiconfig
+http://www.linten.eu/raspberry-pi/network-boot
+https://christian-brauweiler.de/raspberry-pi-tuning-dem-pi-beine-machen-beim-surfen/
+https://www.raspberrypi.org/documentation/hardware/raspberrypi/booteeprom.md
+https://jamesachambers.com/raspberry-pi-4-bootloader-firmware-updating-recovery-guide/
+https://www.jeffgeerling.com/blog/2020/im-booting-my-raspberry-pi-4-usb-ssd
+https://www.raspberrypi.org/forums/viewtopic.php?t=133691
+https://blog.vpetkov.net/2019/07/12/netflix-and-spotify-on-a-raspberry-pi-4-with-latest-default-chromium/
+https://www.rustimation.eu/index.php/sd-karten-verschleiss-vermeiden/
+https://www.dedoimedo.com/computers/rpi4-ubuntu-mate-hw-video-acceleration.html
+https://www.youtube.com/watch?v=RRyj1tzvfOg >>> screen tearing
+
+
+https://www.geeks3d.com/glz/
+
+apt install libglu1
+
+######################################################################
+
+
+sudo apt-get install firefox-esr
+
+about:config force-enable
+about:support
+
+sudo mkdir /mnt/ramdisk
+sudo nano /etc/fstab
+####### für die jeweilige ext4 partition >>>>> ext4 defaults,nodiratime,noatime 0 1
+tmpfs /mnt/ramdisk tmpfs nodev,nosuid,noatime,nodiratime,size=128M 0 0
+none /var/log tmpfs size=15M,noatime,nodiratime 0
+sudo chmod 777 /mnt/ramdisk
+
+#################################################################
+
+watch vgcgencmd measure_clock arm
+
+cd /boot
+sudo apt-get install cpufrequtils
+sudo apt-get install sysstat
+sudo watch -n 1 ./volt.sh

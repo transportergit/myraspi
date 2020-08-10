@@ -1,0 +1,25 @@
+disable_overscan=1
+disable_splash=1
+
+dtoverlay=vc4-fkms-v3d, cma-256
+dtoverlay=disable-bt
+dtoverlay=disable-wifi
+
+dtparam=audio=on
+
+max_framebuffers=2
+
+#over_voltage=6
+over_voltage_min=-6
+
+#arm_freq=2100
+arm_freq_min=300
+
+#gpu_freq=750
+#gpu_freq_min=250
+#gpu_mem=512
+
+
+
+
+
